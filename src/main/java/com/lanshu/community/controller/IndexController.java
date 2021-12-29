@@ -5,12 +5,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-public class Hello {
 
-    @GetMapping("/hello")
-    public String Hello(@RequestParam(value = "mingzi") String name, Model model){
-        model.addAttribute("userName",name);
-        return "hello";
+@Controller
+public class IndexController {
+    /**
+     * 欢迎页
+     * @return
+     */
+    @GetMapping("/")
+    public String index(){
+        return "index";
     }
 }
