@@ -5,7 +5,6 @@ import com.lanshu.community.dto.AccessTokenDTO;
 import com.lanshu.community.dto.GithubUser;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 
 @Component
@@ -44,9 +43,9 @@ public class GithubProvider {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            /*将响应体中的 String 对象，转换为 GithubUser 类对象*/
             System.out.println("getUser方法运行");
-            return JSON.parseObject(response.body().string(),GithubUser.class);
+            /*将响应体中的 String 对象，转换为 GithubUser 类对象*/
+            return JSON.parseObject(response.body().string(), GithubUser.class);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

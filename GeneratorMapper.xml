@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 指定连接数据库的 JDBC 驱动包所在位置，指定到你本机的完整路径 -->
+    <classPathEntry location="C:\Program Files (x86)\MySQL\Connector J 8.0\mysql-connector-java-8.0.25.jar"/>
+    <!-- 配置 table 表信息内容体，targetRuntime 指定采用 MyBatis3 的版本 -->
+    <context id="tables" targetRuntime="MyBatis3">
+
+        <!--禁止生成英文注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- 配置数据库连接信息，这里只使用一次，作为反向工程使用 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/community"
+                        userId="root"
+                        password="4444">
+        </jdbcConnection>
+
+        <!--生成 model 实体类，targetPackage 指定包名，targetProject 指定工程位置-->
+        <javaModelGenerator targetPackage="com.lanshu.community.model"
+                            targetProject="C:\Users\Tuzki\IdeaProjects\community\src\main\java">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="false" />
+        </javaModelGenerator>
+
+        <!-- 生成 MyBatis 的 Mapper.xml 文件，targetPackage 指定 mapper.xml 文件的包名
+                            targetProject 指定生成的 mapper.xml 放在哪个工程下 -->
+        <sqlMapGenerator targetPackage="com.lanshu.community.mapper"
+                         targetProject="src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 生成 MyBatis 的 dao 接口类文件,targetPackage 指定 Mapper 接口类的包
+       名， targetProject 指定生成的 Mapper 接口放在哪个工程下面 dao接口和mapper文件放在同一文件夹，名字一致-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.lanshu.community.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!-- 数据库表名及对应的 Java 模型类名 -->
+        <table tableName="c_user" domainObjectName="User"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+    </context>
+</generatorConfiguration>
