@@ -7,5 +7,7 @@ import java.util.List;
 public interface QuestionMapper {
     void insert(Question question);
 
-    List<Question> select();
+    List<Question> select(Integer offset, Integer size);
+
+    Integer allCount();
 }

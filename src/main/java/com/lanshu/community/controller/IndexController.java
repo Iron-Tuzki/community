@@ -1,5 +1,6 @@
 package com.lanshu.community.controller;
 
+import com.lanshu.community.dto.PaginationDto;
 import com.lanshu.community.dto.QuestionDto;
 import com.lanshu.community.mapper.UserMapper;
 import com.lanshu.community.model.User;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.servlet.http.Cookie;
@@ -23,12 +25,12 @@ public class IndexController {
     @Autowired
     private QuestionService questionService;
 
-    /**
-     * 欢迎页
-     * @return
+    /*** 欢迎页
      */
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model){
+    public String index(HttpServletRequest request, Model model,
+                        @RequestParam(name = "page",defaultValue = "1") Integer page,
+                        @RequestParam(name = "size",defaultValue = "2") Integer size){
         System.out.println("index display");
         //访问首页时查看cookie
         Cookie[] cookies = request.getCookies();
@@ -47,8 +49,8 @@ public class IndexController {
             }
         }
         //调用 service 层 获得问题列表
-        List<QuestionDto> questionList = questionService.list();
-        model.addAttribute("questions", questionList);
+        PaginationDto paginationDto = questionService.list(page, size);
+        model.addAttribute("paginationDto", paginationDto);
         return "index";
     }
 }

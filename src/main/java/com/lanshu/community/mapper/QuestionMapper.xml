@@ -10,6 +10,10 @@
     </insert>
 
     <select id="select" resultType="com.lanshu.community.model.Question">
-        select * from c_question
+        select * from c_question limit #{offset}, #{size}
+    </select>
+    
+    <select id="allCount" resultType="java.lang.Integer">
+        select count(1) from c_question
     </select>
 </mapper>

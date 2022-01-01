@@ -86,10 +86,14 @@
                 <div class="container-fluid main">
                     <div class="row">
                         <!-- th:if="${error != null} 如果没有错误信息则不展示-->
-                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${error != null}" th:text="${error}"></div>
+                        <div  class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+                            <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${error != null}" th:text="${error}"></div>
+                        </div>
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                             <!--发布按钮 调用btn btn-success btn-publish 三个类-->
-                            <button type="submit" class="btn btn-success btn-publish">发布</button>
+                            <button type="submit" class="btn btn-success btn-publish">
+                                发布
+                            </button>
                         </div>
                     </div>
                 </div>
