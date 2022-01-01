@@ -21,6 +21,9 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <select id="findByToken" parameterType="java.lang.String" resultType="com.lanshu.community.model.User">
+    select * from c_user where token = #{token}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from c_user
     where id = #{id,jdbcType=INTEGER}
@@ -28,10 +31,10 @@
 
   <insert id="insert" parameterType="com.lanshu.community.model.User">
     insert into c_user ( account_id, name,
-      token, gmt_create, gmt_modified
+      token, gmt_create, gmt_modified, avatar_url
       )
     values (#{accountId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{token,jdbcType=CHAR}, #{gmtCreate,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT}
+      #{token,jdbcType=CHAR}, #{gmtCreate,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT}, #{avatarUrl}
       )
   </insert>
 

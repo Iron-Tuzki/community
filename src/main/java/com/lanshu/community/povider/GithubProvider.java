@@ -44,7 +44,7 @@ public class GithubProvider {
         try {
             Response response = client.newCall(request).execute();
             System.out.println("getUser方法运行");
-            /*将响应体中的 String 对象，转换为 GithubUser 类对象*/
+            /*将响应体中的 String 对象，转换为 GithubUser 类对象，自动匹配属性赋值*/
             return JSON.parseObject(response.body().string(), GithubUser.class);
         } catch (IOException ex) {
             ex.printStackTrace();

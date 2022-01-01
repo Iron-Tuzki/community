@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -32,7 +32,9 @@ public class AuthorizeController {
     private String redirectUri;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(value = "code") String code, HttpServletRequest request){
+    public String callback(@RequestParam(value = "code") String code,
+                           HttpServletRequest request,
+                           HttpServletResponse response){
 
         System.out.println("code = "+ code);
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
@@ -46,22 +48,27 @@ public class AuthorizeController {
         /*使用 accesstoken 获取 userName*/
         GithubUser githubUser = githubProvider.getUser(accesstoken);
         System.out.println("用户名：" + githubUser.getName());
-        if (githubUser != null){
-            //登录成功，用户信息写入数据库中
+
+        //登录成功，用户信息写入数据库中
+        if (githubUser != null && githubUser.getId()!=0){
             User user = new User();
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));  // int 转 String
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(System.currentTimeMillis());
-            userMapper.insert(user);
-            //用户信息写入 cookie session
-            request.getSession().setAttribute("user",githubUser);
-            //重定向回首页
+            user.setAvatarUrl(githubUser.getAvatar_url());
+            if (user.getName()!=null){
+                userMapper.insert(user);
+                //token 写入 cookie
+                response.addCookie(new Cookie("token",token));
+                //request.getSession().setAttribute("user",user);
+            }
+            //重定向回首页 index
             return "redirect:/";
         } else {
             return "redirect:/";
         }
     }
-
 }
