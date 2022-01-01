@@ -24,6 +24,11 @@
   <select id="findByToken" parameterType="java.lang.String" resultType="com.lanshu.community.model.User">
     select * from c_user where token = #{token}
   </select>
+
+  <select id="findById" parameterType="java.lang.Integer" resultType="com.lanshu.community.model.User">
+    select * from c_user where id = #{id}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from c_user
     where id = #{id,jdbcType=INTEGER}
