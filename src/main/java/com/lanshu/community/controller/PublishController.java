@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -47,22 +46,7 @@ public class PublishController {
             return "/publish";
         }
         //三项内容全不为空，则验证用户信息
-        Cookie[] cookies = request.getCookies();
-        User user = null;
-        if (cookies!=null){
-            for (Cookie cookie: cookies) {
-                //如果cookie中有key为token的value，取出并去mysql中查找用户信息
-                //如果有匹配用户则放入session中，实现持久化登录状态
-                if ("token".equals(cookie.getName())) {
-                    user = userMapper.findByToken(cookie.getValue());
-                    if (user != null){
-                        //用户信息放入session
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if (user==null){
             model.addAttribute("error","用户未登录");
             //用户未登录，返回问题编辑页面，并显示用户未登录信息
@@ -77,7 +61,7 @@ public class PublishController {
         question.setGmtModified(System.currentTimeMillis());
         //插入问题表
         questionMapper.insert(question);
-        //发布成功，返回首页
-        return "redirect:/";
+        //发布成功，返回“我的提问”
+        return "redirect:/profile/myquestions";
     }
 }

@@ -7,7 +7,13 @@ import java.util.List;
 public interface QuestionMapper {
     void insert(Question question);
 
+    Integer allCount();
+
     List<Question> select(Integer offset, Integer size);
 
-    Integer allCount();
+    Integer allCountByCreator(Integer id);
+
+    List<Question> selectByCreator(Integer id, Integer offset, Integer size);
+
+    Question findById(Integer id);
 }

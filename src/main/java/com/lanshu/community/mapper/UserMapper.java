@@ -18,4 +18,6 @@ public interface UserMapper {
     User findByToken(String value);
 
     User findById(Integer creator);
+
+    User findByAccountId(long id);
 }

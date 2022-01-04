@@ -9,11 +9,23 @@
         (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})
     </insert>
 
+    <select id="allCount" resultType="java.lang.Integer">
+        select count(1) from c_question
+    </select>
+
     <select id="select" resultType="com.lanshu.community.model.Question">
         select * from c_question limit #{offset}, #{size}
     </select>
-    
-    <select id="allCount" resultType="java.lang.Integer">
-        select count(1) from c_question
+
+    <select id="selectByCreator" resultType="com.lanshu.community.model.Question">
+        select * from c_question where creator = #{id} limit #{offset}, #{size}
+    </select>
+
+    <select id="allCountByCreator" resultType="java.lang.Integer">
+        select count(1) from c_question where creator = #{id}
+    </select>
+
+    <select id="findById" resultType="com.lanshu.community.model.Question">
+        select * from c_question where id = #{id}
     </select>
 </mapper>

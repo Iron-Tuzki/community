@@ -29,6 +29,10 @@
     select * from c_user where id = #{id}
   </select>
 
+  <select id="findByAccountId" resultType="com.lanshu.community.model.User">
+    select * from c_user where account_id = #{id};
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from c_user
     where id = #{id,jdbcType=INTEGER}
@@ -105,9 +109,13 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=BIGINT},
       </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl}
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.lanshu.community.model.User">
     update c_user
     set account_id = #{accountId,jdbcType=VARCHAR},
