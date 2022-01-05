@@ -4,9 +4,9 @@
 
     <insert id="insert" parameterType="com.lanshu.community.model.Question">
         insert into c_question
-        (title,description,gmt_create,gmt_modified  ,creator,tag)
+        (title, description, gmt_create, gmt_modified, creator, tag)
         values
-        (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})
+        (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})
     </insert>
 
     <select id="allCount" resultType="java.lang.Integer">
@@ -28,4 +28,18 @@
     <select id="findById" resultType="com.lanshu.community.model.Question">
         select * from c_question where id = #{id}
     </select>
+
+    <update id="update" parameterType="com.lanshu.community.model.Question">
+        update c_question
+        set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified}
+        where id = #{id}
+    </update>
+
+    <select id="findId" resultType="java.lang.Integer" parameterType="com.lanshu.community.model.Question">
+        select id from c_question where title = #{title} and description = #{description} and creator = #{creator}
+    </select>
+
+    <delete id="deleteById" parameterType="int">
+        delete from c_question where id = #{id}
+    </delete>
 </mapper>

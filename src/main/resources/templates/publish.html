@@ -5,13 +5,13 @@
     <title>发布文章：兰舒的社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <!--引入 community.css 文件-->
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="/css/community.css">
     <!--提供下拉功能-->
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -25,6 +25,7 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">发起</span></h2>
             <hr>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题</label>
                     <input type="text" name="title" id="title" class="form-control"  th:value="${title}" placeholder="问题标题……">

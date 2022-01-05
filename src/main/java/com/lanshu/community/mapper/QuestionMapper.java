@@ -5,6 +5,7 @@ import com.lanshu.community.model.Question;
 import java.util.List;
 
 public interface QuestionMapper {
+    
     void insert(Question question);
 
     Integer allCount();
@@ -16,4 +17,10 @@ public interface QuestionMapper {
     List<Question> selectByCreator(Integer id, Integer offset, Integer size);
 
     Question findById(Integer id);
+
+    void update(Question question);
+
+    Integer findId(Question question);
+
+    void deleteById(Integer id);
 }

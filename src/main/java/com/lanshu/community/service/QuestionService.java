@@ -2,6 +2,8 @@ package com.lanshu.community.service;
 
 import com.lanshu.community.dto.PaginationDto;
 import com.lanshu.community.dto.QuestionDto;
+import com.lanshu.community.exception.QuesEx;
+import com.lanshu.community.exception.QuesExCode;
 import com.lanshu.community.mapper.QuestionMapper;
 import com.lanshu.community.mapper.UserMapper;
 import com.lanshu.community.model.Question;
@@ -102,13 +104,39 @@ public class QuestionService {
         return paginationDto;
     }
 
-    public QuestionDto getQuesById(Integer id) {
+    /**
+     * 根据问题id获得问题详情
+     * @param id
+     * @return
+     */
+    public QuestionDto findById(Integer id) throws QuesEx {
         Question question = questionMapper.findById(id);
+        if (question == null)
+            //throw new QuestionException("该问题不存在");
+            /*先去 QuesExCode 查找 QUESTION_NOT_FOUND，将其作为参数传给 QuesExCode 的有参构造
+            * QuesExCode 的 message 作为参数传给 QuesEx 的有参构造*/
+            throw new QuesEx(QuesExCode.QUESTION_NOT_FOUND);
         User user = userMapper.findById(question.getCreator());
-        System.out.println(question.getTitle());
         QuestionDto questionDto = new QuestionDto();
         BeanUtils.copyProperties(question,questionDto);
         questionDto.setUser(user);
         return questionDto;
+    }
+
+    public Integer creatOrUpdate(Question question) {
+
+        if(question.getId() != null) {
+            //更新问题
+            questionMapper.update(question);
+        } else {
+            //创建问题
+            questionMapper.insert(question);
+        }
+        //返回该问题id用于跳转
+        return questionMapper.findId(question);
+    }
+
+    public void deleteById(Integer id) {
+        questionMapper.deleteById(id);
     }
 }

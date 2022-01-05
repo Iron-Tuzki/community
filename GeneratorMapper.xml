@@ -23,7 +23,7 @@
         <!--生成 model 实体类，targetPackage 指定包名，targetProject 指定工程位置-->
         <javaModelGenerator targetPackage="com.lanshu.community.model"
                             targetProject="C:\Users\Tuzki\IdeaProjects\community\src\main\java">
-            <property name="enableSubPackages" value="false" />
+            <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="false" />
         </javaModelGenerator>
 

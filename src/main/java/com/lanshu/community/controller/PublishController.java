@@ -1,14 +1,17 @@
 package com.lanshu.community.controller;
 
-import com.lanshu.community.mapper.QuestionMapper;
-import com.lanshu.community.mapper.UserMapper;
+import com.lanshu.community.dto.QuestionDto;
+import com.lanshu.community.exception.QuesEx;
 import com.lanshu.community.model.Question;
 import com.lanshu.community.model.User;
+import com.lanshu.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private QuestionService questionService;
 
     @GetMapping("/publish")
     public String publish(){
@@ -26,7 +27,9 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
-    public String doPublish(String title, String description, String tag, HttpServletRequest request, Model model) {
+    public String doPublish(String title, String description, String tag,
+                            @RequestParam(name = "id", required = false) Integer id,
+                            HttpServletRequest request, Model model) {
 
         //用于有空内容时进行回显
         model.addAttribute("title",title);
@@ -59,9 +62,20 @@ public class PublishController {
         question.setCreator(user.getId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(System.currentTimeMillis());
-        //插入问题表
-        questionMapper.insert(question);
-        //发布成功，返回“我的提问”
-        return "redirect:/profile/myquestions";
+        //如果是第一次创建问题，则id=null，在creatOrUpdate方法中通过id判断是创建还是更新问题，并获得该问题的ID
+        question.setId(id);
+        Integer urlId = questionService.creatOrUpdate(question);
+        //发布成功，返回该问题详情页
+        return "redirect:/question/" + urlId;
+    }
+
+    @GetMapping("/publish/{id}")
+    public String editQuestion(@PathVariable(name = "id") Integer id, Model model) throws QuesEx {
+        QuestionDto questionDto = questionService.findById(id);
+        model.addAttribute("title", questionDto.getTitle());
+        model.addAttribute("description", questionDto.getDescription());
+        model.addAttribute("tag", questionDto.getTag());
+        model.addAttribute("id", questionDto.getId());
+        return "/publish";
     }
 }
