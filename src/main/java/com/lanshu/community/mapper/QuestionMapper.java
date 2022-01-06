@@ -23,4 +23,6 @@ public interface QuestionMapper {
     Integer findId(Question question);
 
     void deleteById(Integer id);
+
+    void updateByIdSelective(Question question);
 }

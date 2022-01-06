@@ -2,8 +2,8 @@ package com.lanshu.community.service;
 
 import com.lanshu.community.dto.PaginationDto;
 import com.lanshu.community.dto.QuestionDto;
-import com.lanshu.community.exception.QuesEx;
-import com.lanshu.community.exception.QuesExCode;
+import com.lanshu.community.exception.CustomerEecption;
+import com.lanshu.community.exception.ErrorCode;
 import com.lanshu.community.mapper.QuestionMapper;
 import com.lanshu.community.mapper.UserMapper;
 import com.lanshu.community.model.Question;
@@ -109,13 +109,13 @@ public class QuestionService {
      * @param id
      * @return
      */
-    public QuestionDto findById(Integer id) throws QuesEx {
+    public QuestionDto findById(Integer id) throws CustomerEecption {
         Question question = questionMapper.findById(id);
         if (question == null)
             //throw new QuestionException("该问题不存在");
             /*先去 QuesExCode 查找 QUESTION_NOT_FOUND，将其作为参数传给 QuesExCode 的有参构造
             * QuesExCode 的 message 作为参数传给 QuesEx 的有参构造*/
-            throw new QuesEx(QuesExCode.QUESTION_NOT_FOUND);
+            throw new CustomerEecption(ErrorCode.QUESTION_NOT_FOUND);
         User user = userMapper.findById(question.getCreator());
         QuestionDto questionDto = new QuestionDto();
         BeanUtils.copyProperties(question,questionDto);
@@ -138,5 +138,13 @@ public class QuestionService {
 
     public void deleteById(Integer id) {
         questionMapper.deleteById(id);
+    }
+
+    public void incViewCount(Integer id, Integer oldViewCount) {
+        //根据 id 和 viewCount
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(oldViewCount);
+        questionMapper.updateByIdSelective(question);
     }
 }

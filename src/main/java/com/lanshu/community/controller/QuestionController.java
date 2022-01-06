@@ -1,7 +1,7 @@
 package com.lanshu.community.controller;
 
 import com.lanshu.community.dto.QuestionDto;
-import com.lanshu.community.exception.QuesEx;
+import com.lanshu.community.exception.CustomerEecption;
 import com.lanshu.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +23,12 @@ public class QuestionController {
      * @return
      */
     @GetMapping("/question/{id}")
-    public String question(@PathVariable(value = "id") Integer id, Model model) throws QuesEx {
+    public String question(@PathVariable(value = "id") Integer id, Model model) throws CustomerEecption {
 
         QuestionDto questionDto = questionService.findById(id);
+        //阅读数加一
+        questionService.incViewCount(id, questionDto.getViewCount());
+        //展示问题详情
         model.addAttribute("questionDto", questionDto);
         return "question";
     }

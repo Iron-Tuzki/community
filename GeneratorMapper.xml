@@ -43,7 +43,7 @@
         </javaClientGenerator>
 
         <!-- 数据库表名及对应的 Java 模型类名 -->
-        <table tableName="c_user" domainObjectName="User"
+        <table tableName="c_comment" domainObjectName="Comment"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

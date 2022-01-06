@@ -42,4 +42,36 @@
     <delete id="deleteById" parameterType="int">
         delete from c_question where id = #{id}
     </delete>
+    <!--选择性更新，注意传参为Question类对象-->
+    <update id="updateByIdSelective" parameterType="com.lanshu.community.model.Question">
+        update c_question
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="description != null">
+                name = #{description},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=BIGINT},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=BIGINT},
+            </if>
+            <if test="creator != null">
+                creator = #{creator}
+            </if>
+            <if test="tag != null">
+                tag = #{tag}
+            </if>
+            <if test="viewCount != null">
+                view_count = view_count + 1
+            </if>
+            <if test="commentCount != null">
+                comment_count= comment_count + 1
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
 </mapper>

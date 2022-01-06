@@ -1,5 +1,6 @@
 package com.lanshu.community.exception;
 
-public interface QuesExCodeI {
+public interface ErrorCodeI {
     String getMessage();
+    Integer getCode();
 }

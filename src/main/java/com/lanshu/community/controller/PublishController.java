@@ -1,7 +1,7 @@
 package com.lanshu.community.controller;
 
 import com.lanshu.community.dto.QuestionDto;
-import com.lanshu.community.exception.QuesEx;
+import com.lanshu.community.exception.CustomerEecption;
 import com.lanshu.community.model.Question;
 import com.lanshu.community.model.User;
 import com.lanshu.community.service.QuestionService;
@@ -70,7 +70,7 @@ public class PublishController {
     }
 
     @GetMapping("/publish/{id}")
-    public String editQuestion(@PathVariable(name = "id") Integer id, Model model) throws QuesEx {
+    public String editQuestion(@PathVariable(name = "id") Integer id, Model model) throws CustomerEecption {
         QuestionDto questionDto = questionService.findById(id);
         model.addAttribute("title", questionDto.getTitle());
         model.addAttribute("description", questionDto.getDescription());
